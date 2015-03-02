@@ -47,9 +47,6 @@ $(function(){
     $(document).on("DOMNodeInserted", function(e) {
       var line = e.target;
       var message = $(line).find('.message').first();
-      if (message.html().match(/(https?:)/g)) {
-        return;
-      }
       message.html(emojiReplacer.replace(message.html()));
     });
 
