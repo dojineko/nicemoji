@@ -54,11 +54,11 @@ $(function(){
     });
 
     // テーマに追加で絵文字のCSSを追加
-    if (ADD_EMOJI_BASE_CSS) {
-      $('body').append("<style type='text/css'>.emoji{width:" + EMOJI_SIZE + ";height:" + EMOJI_SIZE + ";border:none;}</style>");
+    if (ADD_EMOJI_BASE_CSS && !$('nicemoji_base')[0]) {
+      $('head').append("<style type='text/css' id='nicemoji_base'>.nicemoji{width:" + EMOJI_SIZE + ";height:" + EMOJI_SIZE + ";border:none;}</style>");
     }
-    if (ADD_EMOJI_SHADOW) {
-      $('body').append("<style type='text/css'>.emoji{-webkit-filter:drop-shadow(0 0 1px " + EMOJI_SHADOW_COLOR + ");}</style>");
+    if (ADD_EMOJI_SHADOW && !$('nicemoji_shadow')[0]) {
+      $('head').append("<style type='text/css' id='nicemoji_shadow'>.nicemoji{-webkit-filter:drop-shadow(0 0 1px " + EMOJI_SHADOW_COLOR + ");}</style>");
     }
   };
 
@@ -66,7 +66,7 @@ $(function(){
   function EmojiReplacer() {
     // 絵文字用のタグを生成する
     var createEmojiTag = function (emojiName, emojiUrl) {
-      var tag = '<img class="emoji" title=":' + emojiName + ':" src="' + emojiUrl + '">';
+      var tag = '<img class="nicemoji" title=":' + emojiName + ':" src="' + emojiUrl + '">';
       return tag;
     };
 
