@@ -9,7 +9,7 @@ var arrEmoji = {"hash":"23-20e3","zero":"30-20e3","one":"31-20e3","two":"32-20e3
 
 const ADD_EMOJI_BASE_CSS   = true;
 const ADD_EMOJI_SHADOW     = false;
-const EMOJI_SIZE           = "18px";
+const EMOJI_SIZE           = "1.5em";
 const EMOJI_SHADOW_COLOR   = "#DDDDDD";
 const EMOJI_STYLE          = "twitter";
 const SLACK_API_TOKEN      = "";

@@ -29,7 +29,7 @@ JavaScript本体の先頭に定数が定義されています。
 | ---------------------- |:--------------:| --------------------------------------------------------------------------------------------- |
 | ADD_EMOJI_BASE_CSS     | true           | 絵文字を表示するのに必要なスタイルを適用します。                                              |
 | ADD_EMOJI_SHADOW       | false          | 絵文字にドロップシャドウを設定します。<br>`EMOJI_SHADOW_COLOR` で指定した色の影が付きます。   |
-| EMOJI_SIZE             | 18px           | 絵文字のサイズを指定します。                                                                  |
+| EMOJI_SIZE             | 1.5em          | 絵文字のサイズを指定します。                                                                  |
 | EMOJI_SHADOW_COLOR     | #DDDDDD        | `ADD_EMOJI_SHADOW` が `true` の時に表示される影の色を指定します。                             |
 | EMOJI_STYLE            | twitter        | 絵文字のテーマを指定します。<br>`twitter` か `github` を指定することができます。              |
 | SLACK_API_TOKEN        | (null)         | Slackのオリジナル絵文字を利用する場合にSlack API Tokenを指定します。                          |
