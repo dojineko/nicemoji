@@ -33,6 +33,8 @@ JavaScript本体の先頭に定数が定義されています。
 | EMOJI_SHADOW_COLOR     | #DDDDDD        | `ADD_EMOJI_SHADOW` が `true` の時に表示される影の色を指定します。                             |
 | EMOJI_STYLE            | twitter        | 絵文字のテーマを指定します。<br>`twitter` か `github` を指定することができます。              |
 | SLACK_API_TOKEN        | (null)         | Slackのオリジナル絵文字を利用する場合にSlack API Tokenを指定します。                          |
+| USE_KEYWORD_HIGHLIGHT  | false          | `true` 指定時にキーワードハイライト機能を有効にします。                                       |
+| HIGHLIGHT_DICTIONARY   | (hash)         | ハイライトするキーワードと色を指定します。                                                    |
 
 ## FAQ
 ### なんて読むの？
@@ -45,6 +47,11 @@ nicemoji が追加するスタイルが影響している場合は `ADD_EMOJI_BA
 ### Slackの絵文字が出ない
 `SLACK_API_TOKEN` が正しく設定されているか確認して下さい。  
 Slack API Token は https://api.slack.com/web から取得できます。
+
+### キーワードハイライト機能とは？
+![](images/highlight.png)
+LimeChatのハイライト機能とは別に任意の文字列を強調表示します。  
+あくまで視覚的なものなので通知が飛んだりはしません。
 
 ## License
 MIT

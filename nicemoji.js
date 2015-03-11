@@ -13,6 +13,26 @@ const EMOJI_SIZE           = "1.5em";
 const EMOJI_SHADOW_COLOR   = "#DDDDDD";
 const EMOJI_STYLE          = "twitter";
 const SLACK_API_TOKEN      = "";
+const USE_HIGHLIGHT        = false;
+const HIGHLIGHT_DICTIONARY = {
+  "PROBLEM":   "#E74C3C",
+  "CRITICAL":  "#E74C3C",
+  "Crit":      "#E74C3C",
+  "DOWN":      "#E74C3C",
+  "NG":        "#E74C3C",
+  "is not OK": "#E74C3C",
+  "Error":     "#E74C3C",
+  "FAILED":    "#E74C3C",
+  "WARNING":   "#F9BF3B",
+  "Warning":   "#F9BF3B",
+  "Warn":      "#F9BF3B",
+  "SUCCESS":   "#00B16A",
+  "RECOVERY":  "#00B16A",
+  "OK":        "#00B16A",
+  "UP":        "#00B16A",
+  "succeeded": "#52B3D9",
+  "matched":   "#D2527F"
+};
 
 const SLACK_EMOJI_API      = "https://slack.com/api/emoji.list";
 const TWITTER_EMOJI_BASE   = "https://raw.githubusercontent.com/twitter/twemoji/gh-pages/36x36/";
@@ -20,10 +40,6 @@ const GITHUB_EMOJI_BASE    = "https://assets-cdn.github.com/images/icons/emoji/"
 const REFRESH_RATE         = 10 * 60 * 1000;
 
 $(function(){
-
-  var slackEmojiProvider = new SlackEmojiProvider(REFRESH_RATE);
-  var otherEmojiProvider = undefined;
-  var emojiReplacer      = new EmojiReplacer();
 
   // デバッグ関数
   var p = function (str) {
@@ -47,6 +63,9 @@ $(function(){
     $(document).on("DOMNodeInserted", function(e) {
       var line = e.target;
       var message = $(line).find('.message').first();
+      if (USE_HIGHLIGHT) {
+      	message.html(keywordHighlighter.replace(message.html()));
+      }
       message.html(emojiReplacer.replace(message.html()));
     });
 
@@ -56,6 +75,41 @@ $(function(){
     }
     if (ADD_EMOJI_SHADOW && !$('nicemoji_shadow')[0]) {
       $('head').append("<style type='text/css' id='nicemoji_shadow'>.nicemoji{-webkit-filter:drop-shadow(0 0 1px " + EMOJI_SHADOW_COLOR + ");}</style>");
+    }
+  };
+
+  // キーワードハイライト処理オブジェクト
+  function KeywordHighlighter() {
+    // ハイライトパターンを初期化
+    var arrPattern = [];
+    for (v in HIGHLIGHT_DICTIONARY) {
+      arrPattern.push(v);
+    }
+    var patternStr = arrPattern.join("|");
+
+    // よく使う記号は処理の中でエスケープ
+    patternStr = patternStr.replace(/\ /g, function(str){return "\\ ";});
+    patternStr = patternStr.replace(/\./g, function(str){return "\\.";});
+
+    this.regexp = new RegExp("\\b(" + patternStr + ")\\b", "g");
+  };
+  KeywordHighlighter.prototype = {
+    replace: function (str) {
+      var regexp = this.regexp;
+
+      // HTMLタグとそれ以外をピックアップ
+      return str.replace(/(<\/?[^>]+>)|([^<]+)/g, function() {
+        if (arguments[1] ) {
+          // HTMLタグの場合はそのまま返す
+          return arguments[1];
+        }
+        if (arguments[2]) {
+          // タグ以外の文字列はハイライト処理する
+          return arguments[2].replace(regexp, function(name) {
+            return '<span style="background-color:' + HIGHLIGHT_DICTIONARY[name] + ';color:#000;font-weight:bold;padding:2px;border-radius:2px;">' + name + '</span>';
+          });
+        };
+      });
     }
   };
 
@@ -141,6 +195,11 @@ $(function(){
       return GITHUB_EMOJI_BASE + name + ".png";
     };
   };
+
+  var slackEmojiProvider = new SlackEmojiProvider(REFRESH_RATE);
+  var otherEmojiProvider = undefined;
+  var emojiReplacer      = new EmojiReplacer();
+  var keywordHighlighter = ( USE_HIGHLIGHT ? new KeywordHighlighter() : undefined );
 
   main();
 
