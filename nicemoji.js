@@ -178,22 +178,26 @@ $(function(){
 
   // Twiiterデザインの絵文字を解決するプロバイダ
   function TwitterEmojiProvider() {
-    this.find = function (name) {
+  };
+  TwitterEmojiProvider.prototype = {
+    find: function (name) {
       if (typeof(arrEmoji) == "undefined" || typeof(arrEmoji[name]) == "undefined") {
         return undefined;
       }
       return TWITTER_EMOJI_BASE + arrEmoji[name] + ".png";
-    };
+    }
   };
 
   // Githubデザインの絵文字を解決するプロバイダ
   function GithubEmojiProvider() {
-    this.find = function (name) {
+  };
+  GithubEmojiProvider.prototype = {
+    find: function (name) {
       if (typeof(arrEmoji) == "undefined" || typeof(arrEmoji[name]) == "undefined") {
         return undefined;
       }
       return GITHUB_EMOJI_BASE + name + ".png";
-    };
+    }
   };
 
   var slackEmojiProvider = new SlackEmojiProvider(REFRESH_RATE);
